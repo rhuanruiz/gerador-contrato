@@ -1,38 +1,50 @@
 import { 
     Body, 
+    Controller, 
     Delete, 
+    Get, 
     Param, 
     Post, 
-    Put 
+    Put
 } from "@nestjs/common";
 import { EmpresaService } from "src/Services/EmpresaService";
 
+
+@Controller("empresa")
 export class EmpresaController {
     constructor( 
         private readonly empresaService: EmpresaService
     ) {}
 
+    @Get()
+    async receberEmpresas(): Promise<any> {
+        return this.empresaService.buscarEmpresas();
+    }
 
     @Post()
     async cadastrarEmpresa(
         @Body() dados: {
-            
+            cnpj: String
         }
     ): Promise<any> {
         return this.empresaService.cadastrarEmpresa(dados);
     }
 
-    @Put()
+    @Put(":id")
     async editarEmpresa(
-        @Param("id") idEmpresa: number,
+        @Param("id") idEmpresa: string,
         @Body() dados: {
-            
+            nome: string,
+            ddd: string,
+            telefone: string,
+            cnpj: string,
+            enderecoEmpresa
         }
     ): Promise<any> {
-        return this.empresaService.editarEmpresa(dados);
+        return this.empresaService.editarEmpresa(Number(idEmpresa), dados);
     }
 
-    @Delete()
+    @Delete(":id")
     async excluirEmpresa(
         @Param("id") idEmpresa: number
     ): Promise<any> {
