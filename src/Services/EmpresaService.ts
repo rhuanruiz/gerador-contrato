@@ -43,6 +43,15 @@ export class EmpresaService {
         return dadosEmpresa;
     }
 
+    async buscarEmpresa(idEmpresa: number): Promise<any> {
+        try {
+            return await this.empresaRepository.buscarEmpresa(idEmpresa);
+        } catch(error) {
+            console.log(error);
+            throw new InternalServerErrorException("Oops, ocorreu um erro. Tente novamente!");
+        }
+    }
+
     async buscarEmpresas(): Promise<any> {
 
         try {

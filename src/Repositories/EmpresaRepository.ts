@@ -15,6 +15,9 @@ export class EmpresaRepository {
         return await this.prismaService.empresa.findFirst({
             where: {
                 id: idEmpresa
+            },
+            include: {
+                enderecoEmpresa: true
             }
         });
     }
@@ -44,7 +47,7 @@ export class EmpresaRepository {
                 ddd,
                 telefone,
                 cnpj,
-                endereco: {
+                enderecoEmpresa: {
                     create: enderecoEmpresa
                 }
             }
@@ -76,7 +79,7 @@ export class EmpresaRepository {
                 ddd,
                 telefone,
                 cnpj,
-                endereco: {
+                enderecoEmpresa: {
                     update: enderecoEmpresa
                 }
             }
