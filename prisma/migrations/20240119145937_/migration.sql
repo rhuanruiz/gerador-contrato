@@ -13,6 +13,7 @@ CREATE TABLE "Empresa" (
 CREATE TABLE "Representante" (
     "id" SERIAL NOT NULL,
     "nome" VARCHAR(100) NOT NULL,
+    "naturalidade" VARCHAR(30) NOT NULL,
     "estadoCivil" VARCHAR(30) NOT NULL,
     "profissao" VARCHAR(50) NOT NULL,
     "cpf" VARCHAR(11) NOT NULL,
@@ -49,7 +50,7 @@ CREATE TABLE "EnderecoEmpresa" (
 -- CreateTable
 CREATE TABLE "EnderecoRepresentante" (
     "id" SERIAL NOT NULL,
-    "cep" VARCHAR(8) NOT NULL,
+    "enderecoCompleto" TEXT NOT NULL,
     "cidade" VARCHAR(20) NOT NULL,
     "estado" VARCHAR(2) NOT NULL,
     "representanteId" INTEGER NOT NULL,

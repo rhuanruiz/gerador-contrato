@@ -16,17 +16,18 @@ model Empresa {
   ddd String @db.VarChar(3)
   telefone String @db.VarChar(16)
   cnpj String @db.VarChar(14) @unique 
-  endereco EnderecoEmpresa? 
+  enderecoEmpresa EnderecoEmpresa? 
 }
 
 model Representante {
   id Int @id @default(autoincrement())
   nome String @db.VarChar(100) 
+  naturalidade String @db.VarChar(30)
   estadoCivil String @db.VarChar(30)
   profissao String @db.VarChar(50)
-  registroGeral RegistroGeral?
-  endereco EnderecoRepresentante?
   cpf String @db.VarChar(11) @unique
+  registroGeral RegistroGeral?
+  enderecoRepresentante EnderecoRepresentante?
 }
 
 model RegistroGeral {
@@ -53,11 +54,9 @@ model EnderecoEmpresa {
 
 model EnderecoRepresentante {
   id Int @id @default(autoincrement())
-  cep String @db.VarChar(8) 
+  enderecoCompleto String
   cidade String @db.VarChar(20)
   estado String @db.VarChar(2)
   representante Representante @relation(fields: [representanteId], references: [id])
   representanteId Int @unique
 }
-
-
