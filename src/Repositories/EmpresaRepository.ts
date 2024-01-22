@@ -5,6 +5,7 @@ import {
 } from "@prisma/client";
 import { PrismaService } from "src/Services/PrismaService";
 
+
 @Injectable()
 export class EmpresaRepository {
     constructor( 

@@ -3,6 +3,8 @@ import { EmpresaController } from "src/Controllers/EmpresaController";
 import { EmpresaRepository } from "src/Repositories/EmpresaRepository";
 import { EmpresaService } from "src/Services/EmpresaService";
 import { PrismaService } from "src/Services/PrismaService";
+import { StringFormatService } from "src/Services/StringFormatService";
+
 
 @Module({
     imports: [],
@@ -10,7 +12,8 @@ import { PrismaService } from "src/Services/PrismaService";
     providers: [ 
         EmpresaService,
         EmpresaRepository,
-        PrismaService
+        PrismaService,
+        StringFormatService
     ]
 })
 export class Empresa {}

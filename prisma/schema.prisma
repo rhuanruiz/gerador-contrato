@@ -15,7 +15,7 @@ model Empresa {
   nome String @db.VarChar(100)
   ddd String @db.VarChar(3)
   telefone String @db.VarChar(16)
-  cnpj String @db.VarChar(14) @unique 
+  cnpj String @db.VarChar(28) @unique 
   enderecoEmpresa EnderecoEmpresa? 
 }
 
@@ -47,7 +47,7 @@ model EnderecoEmpresa {
   bairro String @db.VarChar(20)
   cidade String @db.VarChar(20)
   estado String @db.VarChar(2)
-  cep String @db.VarChar(8)
+  cep String @db.VarChar(16)
   empresa Empresa @relation(fields: [empresaId], references: [id])
   empresaId Int @unique
 }

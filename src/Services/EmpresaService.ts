@@ -6,13 +6,16 @@ import {
 } from "@nestjs/common";
 import { EnderecoEmpresa } from "@prisma/client";
 import { EmpresaRepository } from "src/Repositories/EmpresaRepository";
+import { StringFormatService } from "./StringFormatService";
 const consultarCNPJ = require("consultar-cnpj");
+
 
 @Injectable()
 export class EmpresaService {
     constructor( 
-        private readonly empresaRepository: EmpresaRepository
-    ) {}
+        private readonly empresaRepository: EmpresaRepository,
+        private readonly stringFormatService: StringFormatService
+    ) {}     
 
     async consultarCnpj(cnpj: string): Promise<any> {
 
@@ -21,22 +24,32 @@ export class EmpresaService {
             throw new BadRequestException("Este cnpj não existe.")
         }
 
+        const tipo_logradouro = await this.stringFormatService.formatarEndereco(empresa.estabelecimento.tipo_logradouro);
+        const logradouro = await this.stringFormatService.formatarEndereco(empresa.estabelecimento.logradouro);
+        const complemento = await this.stringFormatService.formatarEndereco(empresa.estabelecimento.complemento);
+        const bairro = await this.stringFormatService.formatarEndereco(empresa.estabelecimento.bairro);
+        const cidade = await this.stringFormatService.formatarEndereco(empresa.estabelecimento.cidade.nome);
+        const cep = await this.stringFormatService.formatarCEP(empresa.estabelecimento.cep);
+
         const dadosEndereco = {
-            tipo_logradouro: empresa.estabelecimento.tipo_logradouro,
-            logradouro: empresa.estabelecimento.logradouro,
+            tipo_logradouro: tipo_logradouro,
+            logradouro: logradouro,
             numero: empresa.estabelecimento.numero,
-            complemento: empresa.estabelecimento.complemento,
-            bairro: empresa.estabelecimento.bairro,
-            cidade: empresa.estabelecimento.cidade.nome,
+            complemento: complemento,
+            bairro: bairro,
+            cidade: cidade,
             estado: empresa.estabelecimento.estado.sigla,
-            cep: empresa.estabelecimento.cep
+            cep: cep
         };
 
+        const telefone = await this.stringFormatService.formatarTelefone(empresa.estabelecimento.telefone1);
+        const cnpjFormatado = await this.stringFormatService.formatarCNPJ(cnpj);
+
         const dadosEmpresa = {
-            nome: empresa.razao_social,
+            nome: empresa.razao_social.toUpperCase(),
             ddd: empresa.estabelecimento.ddd1,
-            telefone: empresa.estabelecimento.telefone1,
-            cnpj: cnpj,
+            telefone: telefone,
+            cnpj: cnpjFormatado,
             enderecoEmpresa: dadosEndereco
         };
 
@@ -113,5 +126,4 @@ export class EmpresaService {
             throw new InternalServerErrorException("Oops, ocorreu um erro. Tente novamente!");
         }
     }
-
 }

@@ -35,11 +35,11 @@ export class DocumentoService {
         doc.render({
             //  Empresa
             nome_empresa: empresa.nome,
-            tipo_logradouro: empresa.endereco.tipo_logradouro.toLowerCase(),
-            logradouro: empresa.endereco.logradouro.toLowerCase(),
+            tipo_logradouro: empresa.endereco.tipo_logradouro,
+            logradouro: empresa.endereco.logradouro,
             numero_endereco: empresa.endereco.numero,
-            complemento: empresa.endereco.complemento.toLowerCase(),
-            bairro: empresa.endereco.bairro.toLowerCase(),
+            complemento: empresa.endereco.complemento,
+            bairro: empresa.endereco.bairro,
             cidade_empresa: empresa.endereco.cidade,
             estado_empresa: empresa.endereco.estado,
             cep: empresa.endereco.cep,

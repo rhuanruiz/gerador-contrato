@@ -4,6 +4,7 @@ import { RepresentanteRepository } from "src/Repositories/RepresentanteRepositor
 import { PrismaService } from "src/Services/PrismaService";
 import { RepresentanteService } from "src/Services/RepresentanteService";
 
+
 @Module({
     imports: [],
     controllers: [ RepresentanteController ],

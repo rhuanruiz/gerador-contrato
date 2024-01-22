@@ -4,6 +4,8 @@ import { EmpresaRepository } from "src/Repositories/EmpresaRepository";
 import { DocumentoService } from "src/Services/DocumentoService";
 import { EmpresaService } from "src/Services/EmpresaService";
 import { PrismaService } from "src/Services/PrismaService";
+import { StringFormatService } from "src/Services/StringFormatService";
+
 
 @Module({
     imports: [],
@@ -12,7 +14,8 @@ import { PrismaService } from "src/Services/PrismaService";
         PrismaService,
         DocumentoService,
         EmpresaService,
-        EmpresaRepository
+        EmpresaRepository,
+        StringFormatService
     ]
 })
 export class Documento {}
