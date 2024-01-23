@@ -15,7 +15,7 @@ model Empresa {
   nome String @db.VarChar(100)
   ddd String @db.VarChar(3)
   telefone String @db.VarChar(16)
-  cnpj String @db.VarChar(28) @unique 
+  cnpj String @db.VarChar(28)
   enderecoEmpresa EnderecoEmpresa? 
 }
 

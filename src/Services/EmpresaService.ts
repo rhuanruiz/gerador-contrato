@@ -78,8 +78,13 @@ export class EmpresaService {
     async cadastrarEmpresa(dados): Promise<any> {
 
         const { cnpj } = dados;
+
+        if (await this.empresaRepository.verificarCNPJ(cnpj)) {
+            throw new BadRequestException("Esta empresa já está cadastrada!");
+        }
+
         const dadosEmpresa = await this.consultarCnpj(cnpj);
-        
+
         try {
             const empresa = await this.empresaRepository.cadastrarEmpresa(dadosEmpresa);
             return empresa;

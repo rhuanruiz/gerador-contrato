@@ -88,6 +88,13 @@ export class EmpresaRepository {
     }
 
     async excluirEmpresa(idEmpresa: number): Promise<Empresa> {
+        await this.prismaService.enderecoEmpresa.deleteMany({
+            where: {
+                empresa: {
+                    id: idEmpresa
+                }
+            }
+        });
         return await this.prismaService.empresa.delete({
             where: {
                 id: idEmpresa
@@ -95,5 +102,16 @@ export class EmpresaRepository {
         });
     }
 
-
+    async verificarCNPJ(cnpj: string): Promise<boolean> {
+        const empresa = await this.prismaService.empresa.findFirst({
+            where: {
+                cnpj: cnpj
+            }
+        });
+        if (empresa) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
