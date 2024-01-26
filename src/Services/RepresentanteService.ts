@@ -34,6 +34,10 @@ export class RepresentanteService {
             enderecoRepresentante: EnderecoRepresentante
     }): Promise<any> {
         try {
+            const { nome } = dadosRepresentante;
+            if (await this.representanteRepository.buscarRepresentantePorNome(nome.trim())) {
+                throw new BadRequestException("Este representante já está cadastrado");
+            }
             const representante = await this.representanteRepository.cadastrarRepresentante(dadosRepresentante);
             return representante;
         } catch(error) {

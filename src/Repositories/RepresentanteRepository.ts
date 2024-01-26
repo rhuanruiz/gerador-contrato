@@ -21,6 +21,19 @@ export class RepresentanteRepository {
         });
     }
 
+    async buscarRepresentantePorNome(nomeRepresentante: string): Promise<boolean> {
+        const representante = await this.prismaService.representante.findFirst({
+            where: {
+                nome: nomeRepresentante
+            }
+        });
+        if (representante) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     async buscarRepresentantes(): Promise<any> {
         return await this.prismaService.representante.findMany();
     }

@@ -32,23 +32,23 @@ export class EmpresaService {
         const cep = await this.stringFormatService.formatarCEP(empresa.estabelecimento.cep);
 
         const dadosEndereco = {
-            tipo_logradouro: tipo_logradouro,
-            logradouro: logradouro,
-            numero: empresa.estabelecimento.numero,
-            complemento: complemento,
-            bairro: bairro,
-            cidade: cidade,
-            estado: empresa.estabelecimento.estado.sigla,
-            cep: cep
+            tipo_logradouro: tipo_logradouro?.trim(),
+            logradouro: logradouro?.replace(/\s+/g, ' ').trim(),
+            numero: empresa.estabelecimento.numero?.trim(),
+            complemento: complemento?.replace(/\s+/g, ' ').trim(),
+            bairro: bairro?.trim(),
+            cidade: cidade?.trim(),
+            estado: empresa.estabelecimento.estado.sigla?.trim(),
+            cep: cep?.trim()
         };
 
         const telefone = await this.stringFormatService.formatarTelefone(empresa.estabelecimento.telefone1);
         const cnpjFormatado = await this.stringFormatService.formatarCNPJ(cnpj);
 
         const dadosEmpresa = {
-            nome: empresa.razao_social.toUpperCase(),
-            ddd: empresa.estabelecimento.ddd1,
-            telefone: telefone,
+            nome: empresa.razao_social?.toUpperCase().replace(/\s+/g, ' ').trim(),
+            ddd: empresa.estabelecimento.ddd1?.trim(),
+            telefone: telefone?.replace(/\s+/g, ' ').trim(),
             cnpj: cnpjFormatado,
             enderecoEmpresa: dadosEndereco
         };
@@ -78,8 +78,9 @@ export class EmpresaService {
     async cadastrarEmpresa(dados): Promise<any> {
 
         const { cnpj } = dados;
+        const cnpjFormatado = await this.stringFormatService.formatarCNPJ(cnpj);
 
-        if (await this.empresaRepository.verificarCNPJ(cnpj)) {
+        if (await this.empresaRepository.verificarCNPJ(cnpjFormatado)) {
             throw new BadRequestException("Esta empresa já está cadastrada!");
         }
 
