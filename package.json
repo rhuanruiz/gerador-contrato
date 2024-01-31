@@ -25,6 +25,8 @@
     "@nestjs/platform-express": "^10.3.0",
     "@prisma/client": "^5.8.1",
     "consultar-cnpj": "^1.0.19",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "docxtemplater": "^3.43.1",
     "extenso": "^2.0.1",
     "pizzip": "^3.1.4",

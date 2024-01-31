@@ -1,5 +1,13 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import {
+    Injectable, 
+    InternalServerErrorException, 
+    NotFoundException 
+} from "@nestjs/common";
 import { EmpresaService } from "./EmpresaService";
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { utcToZonedTime } from 'date-fns-tz';
+
 const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 const fs = require("fs");
@@ -14,6 +22,11 @@ export class DocumentoService {
     ) {}
 
     async gerarDocumento(dados): Promise<any> {
+
+        const data = new Date();
+        const fuso_horario= 'America/Sao_Paulo'; 
+        const data_fuso = utcToZonedTime(data, fuso_horario);
+        const data_atual = format(data_fuso, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
 
         const {
             idEmpresa,
@@ -34,6 +47,7 @@ export class DocumentoService {
                 }
             },
             dadosDocumento: {
+                n_contrato,
                 objeto,
                 valor,
                 funcao,
@@ -79,7 +93,7 @@ export class DocumentoService {
             //  Tratar casos que esteja vazio
             doc.render({
                 //  Empresa
-                nome_empresa: empresa.nome,
+                nome_empresa: empresa.nome.toUpperCase(),
                 tipo_logradouro: empresa.enderecoEmpresa.tipo_logradouro,
                 logradouro: empresa.enderecoEmpresa.logradouro,
                 numero_endereco: empresa.enderecoEmpresa.numero,
@@ -92,7 +106,7 @@ export class DocumentoService {
                 telefone: empresa.telefone,
                 cnpj: empresa.cnpj,
                 //  Representante
-                nome_representante: nome_representante,
+                nome_representante: nome_representante.toUpperCase(),
                 naturalidade: naturalidade,
                 estado_civil: estadoCivil,
                 profissao: profissao,
@@ -102,7 +116,8 @@ export class DocumentoService {
                 endereco_representante: enderecoCompleto,
                 cidade_representante: cidade,
                 estado_representante: estado,
-                //  Objetivo
+                //  Objeto
+                n_contrato: n_contrato,
                 objeto: objeto,
                 //  Valor Contratual
                 valor: valor,
@@ -131,7 +146,7 @@ export class DocumentoService {
                 //  Termo de Cooperação
                 termo_cooperacao: termo_cooperacao,
                 //  Foro
-                //data_documento:
+                data_documento: data_atual
             });
 
             const buf = doc.getZip().generate({
@@ -145,5 +160,4 @@ export class DocumentoService {
             throw new InternalServerErrorException("Oops, ocorreu um erro. Tente novamente!");
         }
     }
-
 }
