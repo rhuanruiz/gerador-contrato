@@ -17,7 +17,7 @@ export class EmpresaController {
     ) {}
 
     @Get()
-    async receberEmpresas(): Promise<any> {
+    async buscarEmpresas(): Promise<any> {
         return this.empresaService.buscarEmpresas();
     }
 

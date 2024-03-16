@@ -5,6 +5,7 @@ import {
 } from "@prisma/client";
 import { PrismaService } from "src/Services/PrismaService";
 
+
 @Injectable()
 export class EmpresaRepository {
     constructor( 
@@ -15,6 +16,9 @@ export class EmpresaRepository {
         return await this.prismaService.empresa.findFirst({
             where: {
                 id: idEmpresa
+            },
+            include: {
+                enderecoEmpresa: true
             }
         });
     }
@@ -44,7 +48,7 @@ export class EmpresaRepository {
                 ddd,
                 telefone,
                 cnpj,
-                endereco: {
+                enderecoEmpresa: {
                     create: enderecoEmpresa
                 }
             }
@@ -76,7 +80,7 @@ export class EmpresaRepository {
                 ddd,
                 telefone,
                 cnpj,
-                endereco: {
+                enderecoEmpresa: {
                     update: enderecoEmpresa
                 }
             }
@@ -84,6 +88,13 @@ export class EmpresaRepository {
     }
 
     async excluirEmpresa(idEmpresa: number): Promise<Empresa> {
+        await this.prismaService.enderecoEmpresa.deleteMany({
+            where: {
+                empresa: {
+                    id: idEmpresa
+                }
+            }
+        });
         return await this.prismaService.empresa.delete({
             where: {
                 id: idEmpresa
@@ -91,5 +102,16 @@ export class EmpresaRepository {
         });
     }
 
-
+    async verificarCNPJ(cnpj: string): Promise<boolean> {
+        const empresa = await this.prismaService.empresa.findFirst({
+            where: {
+                cnpj: cnpj
+            }
+        });
+        if (empresa) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

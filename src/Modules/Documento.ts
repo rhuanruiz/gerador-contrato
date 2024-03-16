@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
-import { EmpresaController } from "src/Controllers/EmpresaController";
+import { DocumentoController } from "src/Controllers/DocumentoController";
 import { EmpresaRepository } from "src/Repositories/EmpresaRepository";
+import { DocumentoService } from "src/Services/DocumentoService";
 import { EmpresaService } from "src/Services/EmpresaService";
 import { PrismaService } from "src/Services/PrismaService";
 import { StringFormatService } from "src/Services/StringFormatService";
@@ -8,12 +9,13 @@ import { StringFormatService } from "src/Services/StringFormatService";
 
 @Module({
     imports: [],
-    controllers: [ EmpresaController ],
+    controllers: [ DocumentoController ],
     providers: [ 
+        PrismaService,
+        DocumentoService,
         EmpresaService,
         EmpresaRepository,
-        PrismaService,
         StringFormatService
     ]
 })
-export class Empresa {}
+export class Documento {}
